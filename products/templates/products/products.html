@@ -67,10 +67,10 @@
                         </a>
                         <div class="card-body">
                             <h4 class="card-title">
-                                <a href="#">{{ product.name }}</a>
+                                <a href="#">{{ product.name|capfirst }}</a>
                             </h4>
                             <h5>{{ product.price }} руб.</h5>
-                            <p class="card-text">{{ product.description }}</p>
+                            <p class="card-text">{{ product.description|capfirst }}</p>
                         </div>
                         <div class="card-footer text-center">
                             <button type="button" class="btn btn-outline-success">Отправить в корзину</button>
@@ -105,7 +105,7 @@
 {% block footer %}
 <footer class="py-5 bg-dark">
     <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; GeekShop 2020</p>
+        <p class="m-0 text-center text-white">Copyright &copy; GeekShop {% now "Y" %}</p>
     </div>
 </footer>
 {% endblock %}
