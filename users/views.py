@@ -34,7 +34,6 @@ def registration(request):
     context = {
         'title': 'GeekShop - Регистрация',
         'form': form,
-        'baskets': Basket.objects.all(),
     }
     return render(request, 'users/register.html', context)
 
@@ -49,7 +48,11 @@ def profile(request):
             print(form.errors)
     else:
         form = UserProfileForm(instance=request.user)
-    context = {'title': 'GeekShop - Личный кабинет', 'form': form}
+    context = {
+        'title': 'GeekShop - Личный кабинет',
+        'form': form,
+        'baskets': Basket.objects.filter(user=request.user),
+    }
     return render(request, 'users/profile.html', context)
 
 
