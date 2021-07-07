@@ -15,3 +15,5 @@ class Basket(models.Model):
 
     def sum(self):
         return self.quantity * self.product.price
+    #total_quantity
+    #total_sum
