@@ -16,16 +16,20 @@ class Basket(models.Model):
     def cost(self):
         return self.quantity * self.product.price
 
+    @property
+    def baskets(self):
+        return Basket.objects.filter(user=self.user)
+
     def total_quantity(self):
         result = 0
-        for item in Basket.objects.filter(user=self.user).values('quantity'):
+        for item in self.baskets.values('quantity'):
             result += item['quantity']
         return result
 
     def total_sum(self):
         result = 0
-        quantity_list = Basket.objects.filter(user=self.user).values('quantity')
-        product_price_list = Basket.objects.filter(user=self.user).values('product__price')
+        quantity_list = self.baskets.values('quantity')
+        product_price_list = self.baskets.values('product__price')
         i = 0
         while i < len(quantity_list):
             result += (quantity_list[i]['quantity'] * product_price_list[i]['product__price'])
