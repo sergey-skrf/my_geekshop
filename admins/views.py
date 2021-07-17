@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import user_passes_test
 
 from users.models import User
 from admins.forms import UserAdminRegistrationForm, UserAdminProfileForm
-from products.models import Product
+from products.models import Product, ProductCategory
 
 @user_passes_test(lambda u: u.is_staff)
 def index(request):
@@ -36,7 +36,7 @@ def admin_users_create(request):
 def admin_users_update(request, pk):
     selected_user = User.objects.get(id=pk)
     if request.method == 'POST':
-        form = UserAdminProfileForm(instance=selected_user,files=request.FILES, data=request.POST)
+        form = UserAdminProfileForm(instance=selected_user, files=request.FILES, data=request.POST)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('admins:admin_users'))
@@ -58,8 +58,16 @@ def admin_users_remove(request, pk):
     user.save()
     return HttpResponseRedirect(reverse('admins:admin_users'))
 
-
+#Контроллеры для товаров:
 @user_passes_test(lambda u: u.is_staff)
 def admin_products(request):
     context = {'title': 'Админ-панель - Товары', 'products': Product.objects.all()}
     return render(request, 'admins/admin-products-read.html', context)
+
+
+#Контроллеры для категорий:
+@user_passes_test(lambda u: u.is_staff)
+def admin_categories(request):
+    context = {'title': 'Админ-панель - Категории', 'categories': ProductCategory.objects.all()}
+    return render(request, 'admins/admin-categories-read.html', context)
+
