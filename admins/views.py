@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import user_passes_test
 
 from users.models import User
 from admins.forms import UserAdminRegistrationForm, UserAdminProfileForm
+from products.models import Product
 
 @user_passes_test(lambda u: u.is_staff)
 def index(request):
@@ -56,3 +57,9 @@ def admin_users_remove(request, pk):
     user.is_active = False
     user.save()
     return HttpResponseRedirect(reverse('admins:admin_users'))
+
+
+@user_passes_test(lambda u: u.is_staff)
+def admin_products(request):
+    context = {'title': 'Админ-панель - Товары', 'products': Product.objects.all()}
+    return render(request, 'admins/admin-products-read.html', context)
