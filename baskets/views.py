@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from  django.template.loader import render_to_string
+from django.template.loader import render_to_string
 from django.http import JsonResponse
 
 from products.models import Product

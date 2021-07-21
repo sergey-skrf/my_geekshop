@@ -15,11 +15,13 @@ def index(request):
     }
     return render(request, 'products/index.html', context)
 
-def products(request):
-    context = {'title': 'GeekShop - Каталог',
-               'products': Product.objects.all(),
-               'category': ProductCategory.objects.all()
-               }
+def products(request, category_id=None):
+    context = {'title': 'GeekShop - Каталог', 'category': ProductCategory.objects.all()}
+    if category_id:
+        context['products'] = Product.objects.filter(category_id=category_id)
+    else:
+        context['products'] = Product.objects.all()
+
     #file_path = os.path.join(MODULE_DIR, "fixtures/goods.json")
     #context['products'] = json.load(open(file_path, encoding='utf-8'))
     return render(request, 'products/products.html', context)
