@@ -54,6 +54,10 @@ class UserUpdateView(UpdateView):
         context['title'] = 'Админ-панель - Редактирование пользователя'
         return context
 
+    @method_decorator(user_passes_test(lambda u: u.is_staff))
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
 
 class UserDeleteView(DeleteView):
     model = User
