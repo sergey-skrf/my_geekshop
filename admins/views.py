@@ -25,7 +25,7 @@ class UserListView(ListView):
 
     @method_decorator(user_passes_test(lambda u: u.is_staff))
     def dispatch(self, request, *args, **kwargs):
-        return super(UserListView, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
 class UserCreateView(CreateView):
     model = User
@@ -37,6 +37,10 @@ class UserCreateView(CreateView):
         context = super().get_context_data(object_list=None, **kwargs)
         context['title'] = 'Админ-панель - Создание пользователя'
         return context
+
+    @method_decorator(user_passes_test(lambda u: u.is_staff))
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
 
 class UserUpdateView(UpdateView):
