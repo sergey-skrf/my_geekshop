@@ -18,7 +18,7 @@ class UserListView(ListView):
     template_name = 'admins/admin-users-read.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        context = super(UserListView, self).get_context_data(object_list=None, **kwargs)
+        context = super().get_context_data(object_list=None, **kwargs)
         context['title'] = 'Админ-панель - Пользователи'
         return context
 
@@ -27,6 +27,11 @@ class UserCreateView(CreateView):
     form_class = UserAdminRegistrationForm
     template_name = 'admins/admin-users-create.html'
     success_url = reverse_lazy('admins:admin_users')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=None, **kwargs)
+        context['title'] = 'Админ-панель - Создание пользователя'
+        return context
 
 
 class UserUpdateView(UpdateView):
