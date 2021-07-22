@@ -70,6 +70,10 @@ class UserDeleteView(DeleteView):
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
 
+    @method_decorator(user_passes_test(lambda u: u.is_staff))
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
 
 
 #Контроллеры для товаров:
