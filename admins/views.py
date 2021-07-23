@@ -88,11 +88,19 @@ class ProductsListView(ListView):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
-#Контроллеры для категорий:
-@user_passes_test(lambda u: u.is_staff)
-def admin_categories(request):
-    context = {'title': 'Админ-панель - Категории', 'categories': ProductCategory.objects.all()}
-    return render(request, 'admins/admin-categories-read.html', context)
+
+class CaregoriesListView(ListView):
+    model = ProductCategory
+    template_name = 'admins/admin-categories-read.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=None, **kwargs)
+        context['title'] = 'Админ-панель - Категории'
+        return context
+
+    @method_decorator(user_passes_test(lambda u: u.is_staff))
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
 
 #@user_passes_test(lambda u: u.is_staff)
@@ -150,3 +158,9 @@ def admin_categories(request):
 #def admin_products(request):
 #    context = {'title': 'Админ-панель - Товары', 'products': Product.objects.all()}
 #    return render(request, 'admins/admin-products-read.html', context)
+
+#Контроллеры для категорий:
+#@user_passes_test(lambda u: u.is_staff)
+#def admin_categories(request):
+#    context = {'title': 'Админ-панель - Категории', 'categories': ProductCategory.objects.all()}
+#    return render(request, 'admins/admin-categories-read.html', context)
