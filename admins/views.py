@@ -75,13 +75,18 @@ class UserDeleteView(DeleteView):
         return super().dispatch(request, *args, **kwargs)
 
 
+class ProductsListView(ListView):
+    model = Product
+    template_name = 'admins/admin-products-read.html'
 
-#Контроллеры для товаров:
-@user_passes_test(lambda u: u.is_staff)
-def admin_products(request):
-    context = {'title': 'Админ-панель - Товары', 'products': Product.objects.all()}
-    return render(request, 'admins/admin-products-read.html', context)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=None, **kwargs)
+        context['title'] = 'Админ-панель - Товары'
+        return context
 
+    @method_decorator(user_passes_test(lambda u: u.is_staff))
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
 #Контроллеры для категорий:
 @user_passes_test(lambda u: u.is_staff)
@@ -138,3 +143,10 @@ def admin_categories(request):
 #    user.is_active = False
 #    user.save()
 #    return HttpResponseRedirect(reverse('admins:admin_users'))
+
+
+#Контроллеры для товаров:
+#@user_passes_test(lambda u: u.is_staff)
+#def admin_products(request):
+#    context = {'title': 'Админ-панель - Товары', 'products': Product.objects.all()}
+#    return render(request, 'admins/admin-products-read.html', context)
