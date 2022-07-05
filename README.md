@@ -1,1 +1,1 @@
-# Основы Django Framework
+# Основы Django Framework (интернет магазин одежды)
